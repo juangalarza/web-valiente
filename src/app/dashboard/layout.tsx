@@ -29,18 +29,84 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   useEffect(() => {
+    let mounted = true;
+
     const checkAuth = async () => {
-      const { data: { session } } = await (supabase.auth as any).getSession();
-      if (!session) {
-        router.push("/login");
-      } else {
-        setIsAuthenticated(true);
+      try {
+        const { data: { session } } = await (supabase.auth as any).getSession();
+        if (!session) {
+          if (mounted) router.push("/login");
+        } else {
+          if (mounted) setIsAuthenticated(true);
+        }
+      } catch (err) {
+        if (mounted) router.push("/login");
       }
     };
+
     checkAuth();
+
+    const { data: { subscription } } = (supabase.auth as any).onAuthStateChange((event: string, session: any) => {
+      if (event === "SIGNED_OUT" || !session) {
+        if (mounted) {
+          setIsAuthenticated(false);
+          router.push("/login");
+        }
+      } else if (session) {
+        if (mounted) setIsAuthenticated(true);
+      }
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, [router]);
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated) {
+    return (
+      <div className="loader-root">
+        <style dangerouslySetInnerHTML={{ __html: `
+          .loader-root {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #0A0E17;
+            font-family: 'Barlow', 'Roboto', sans-serif;
+          }
+          .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+          }
+          .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(59, 130, 246, 0.1);
+            border-left-color: #3B82F6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+          }
+          .loader-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+          }
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}} />
+        <div className="loader-container">
+          <div className="spinner"></div>
+          <div className="loader-text">Verificando acceso seguro...</div>
+        </div>
+      </div>
+    );
+  }
 
   const menuItems = [
     { name: "Dashboard", icon: <LayoutDashboard size={20} />, href: "/dashboard" },

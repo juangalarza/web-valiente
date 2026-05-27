@@ -82,6 +82,7 @@ export default function Home() {
         <ul className="nav-links">
           <li><a href="#marcas">Marcas</a></li>
           <li><a href="#modelos">Modelos</a></li>
+          <li><a href="/vehiculos">Vehículos</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#contacto" className="nav-cta">Cotizar ahora</a></li>
         </ul>
@@ -155,14 +156,6 @@ export default function Home() {
             <a href="#contacto" className="btn-ghost reveal" style={{ whiteSpace: 'nowrap', alignSelf: 'flex-end' }}>Consultar stock disponible →</a>
           </div>
           <div className="brands-grid reveal">
-            <div className="brand-card">
-              <Image src="/1.png" alt="Haval" fill className="object-cover" />
-              <div className="brand-ov">
-                <div className="brand-cat">SUV · Crossover</div>
-                <div className="brand-name">HAVAL</div>
-                <a href="#" className="brand-link">Ver catálogo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14M12 5l7 7-7 7" /></svg></a>
-              </div>
-            </div>
             <div className="brand-card">
               <Image src="/2.png" alt="Shineray" fill className="object-cover" />
               <div className="brand-ov">
