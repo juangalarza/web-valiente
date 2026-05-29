@@ -372,6 +372,34 @@ export default function EditarVehiculoPage() {
         .nv-feedback.success { background: #E8F5E9; color: #2E7D32; }
         .nv-feedback.error { background: #FFEBEE; color: #C62828; }
         .divider { height: 28px; }
+
+        @media (max-width: 768px) {
+          .nv-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            text-align: center;
+          }
+          .nv-card {
+            padding: 24px 16px;
+          }
+          .nv-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px;
+          }
+          .radio-group {
+            flex-direction: column;
+            gap: 10px;
+          }
+          .nv-footer {
+            flex-direction: column-reverse;
+            gap: 12px;
+          }
+          .btn-cancel, .btn-save {
+            width: 100%;
+            justify-content: center;
+          }
+        }
       ` }} />
 
       <div className="nv-header">

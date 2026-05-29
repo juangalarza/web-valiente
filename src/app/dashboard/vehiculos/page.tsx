@@ -339,6 +339,52 @@ export default function VehiculosPage() {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
+
+        .table-responsive {
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+          .header-actions {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            margin-bottom: 16px;
+          }
+          .header-actions h2 {
+            text-align: center;
+          }
+          .add-btn {
+            justify-content: center;
+          }
+          .table-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 16px;
+            padding: 16px !important;
+          }
+          .search-filter {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+          }
+          .search-input {
+            flex: 1;
+          }
+          .search-input input {
+            width: 100% !important;
+          }
+          .action-btn {
+            flex-shrink: 0;
+            width: 38px !important;
+            height: 38px !important;
+          }
+          th, td {
+            padding: 12px 16px !important;
+          }
+        }
       ` }} />
 
       <div className="header-actions">
@@ -382,138 +428,140 @@ export default function VehiculosPage() {
           </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Vehículo</th>
-              <th>Marca</th>
-              <th>Precio</th>
-              <th>Tipo / Kilómetros</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              Array.from({ length: 4 }).map((_, idx) => (
-                <tr key={idx} className="skeleton-row">
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                      <div className="skeleton-bar" style={{ width: '54px', height: '54px', borderRadius: '8px' }} />
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div className="skeleton-bar" style={{ width: '120px', height: '16px' }} />
-                        <div className="skeleton-bar" style={{ width: '60px', height: '12px' }} />
-                      </div>
-                    </div>
-                  </td>
-                  <td><div className="skeleton-bar" style={{ width: '70px', height: '16px' }} /></td>
-                  <td><div className="skeleton-bar" style={{ width: '80px', height: '16px' }} /></td>
-                  <td><div className="skeleton-bar" style={{ width: '100px', height: '16px' }} /></td>
-                  <td><div className="skeleton-bar" style={{ width: '70px', height: '24px', borderRadius: '6px' }} /></td>
-                  <td>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <div className="skeleton-bar" style={{ width: '32px', height: '32px', borderRadius: '6px' }} />
-                      <div className="skeleton-bar" style={{ width: '32px', height: '32px', borderRadius: '6px' }} />
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : filteredVehiculos.length === 0 ? (
+        <div className="table-responsive">
+          <table>
+            <thead>
               <tr>
-                <td colSpan={6} style={{ textAlign: 'center', padding: '48px', color: '#7b809a' }}>
-                  <Car size={36} style={{ margin: '0 auto 12px', opacity: 0.4, display: 'block' }} />
-                  {searchTerm ? "No se encontraron vehículos que coincidan con la búsqueda." : "No hay vehículos cargados en el inventario."}
-                </td>
+                <th>Vehículo</th>
+                <th>Marca</th>
+                <th>Precio</th>
+                <th>Tipo / Kilómetros</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            ) : (
-              filteredVehiculos.map((v) => (
-                <tr key={v.id}>
-                  <td>
-                    <div className="vehiculo-info">
-                      <img
-                        src={v.imagen_url || "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=100&q=80"}
-                        alt={`${v.marca} ${v.modelo}`}
-                        className="vehiculo-img"
-                      />
-                      <div className="vehiculo-name">
-                        <span className="name-main">{v.modelo}</span>
-                        <span className="name-sub">Año: {v.anio}</span>
+            </thead>
+            <tbody>
+              {loading ? (
+                Array.from({ length: 4 }).map((_, idx) => (
+                  <tr key={idx} className="skeleton-row">
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <div className="skeleton-bar" style={{ width: '54px', height: '54px', borderRadius: '8px' }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          <div className="skeleton-bar" style={{ width: '120px', height: '16px' }} />
+                          <div className="skeleton-bar" style={{ width: '60px', height: '12px' }} />
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <span style={{ fontWeight: 600, color: '#344767' }}>{v.marca.toUpperCase()}</span>
-                  </td>
-                  <td style={{ fontWeight: 700, color: '#1A73E8' }}>
-                    {typeof v.precio === 'number'
-                      ? `$ ${Number(v.precio).toLocaleString('es-AR')}`
-                      : v.precio}
-                  </td>
-                  <td>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontWeight: 600, fontSize: '13px', color: '#344767' }}>
-                        {v.tipo === 'nuevo' ? '0 KM' : 'Usado'}
-                      </span>
-                      {v.tipo === 'usado' && v.km != null && (
-                        <span style={{ fontSize: '12px', color: '#7b809a', marginTop: '2px' }}>
-                          {v.km.toLocaleString('es-AR')} km
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td>
-                    {togglingId === v.id ? (
-                      <button className="status-badge" style={{ background: '#e0e0e0', color: '#7b809a', cursor: 'not-allowed' }} disabled>
-                        <Loader2 className="animate-spin" size={12} />
-                        Guardando...
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleToggleActivo(v.id, v.activo)}
-                        className={`status-badge ${v.activo ? 'activo' : 'inactivo'}`}
-                        title={v.activo ? "Clic para desactivar publicación" : "Clic para activar publicación"}
-                      >
-                        {v.activo ? "Publicado" : "Borrador"}
-                      </button>
-                    )}
-                  </td>
-                  <td>
-                    <div className="actions-cell">
-                      <a
-                        href={v.tipo === 'nuevo' ? '/vehiculos/0km' : '/vehiculos/usados'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="action-btn"
-                        title="Ver en el sitio público"
-                      >
-                        <Eye size={16} />
-                      </a>
-                      <Link
-                        href={`/dashboard/vehiculos/editar/${v.id}`}
-                        className="action-btn"
-                        title="Editar vehículo"
-                      >
-                        <Edit2 size={16} />
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(v.id, `${v.marca} ${v.modelo}`)}
-                        className="action-btn delete"
-                        title="Eliminar vehículo"
-                        disabled={deletingId === v.id}
-                      >
-                        {deletingId === v.id ? (
-                          <Loader2 className="animate-spin" size={16} />
-                        ) : (
-                          <Trash2 size={16} />
-                        )}
-                      </button>
-                    </div>
+                    </td>
+                    <td><div className="skeleton-bar" style={{ width: '70px', height: '16px' }} /></td>
+                    <td><div className="skeleton-bar" style={{ width: '80px', height: '16px' }} /></td>
+                    <td><div className="skeleton-bar" style={{ width: '100px', height: '16px' }} /></td>
+                    <td><div className="skeleton-bar" style={{ width: '70px', height: '24px', borderRadius: '6px' }} /></td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <div className="skeleton-bar" style={{ width: '32px', height: '32px', borderRadius: '6px' }} />
+                        <div className="skeleton-bar" style={{ width: '32px', height: '32px', borderRadius: '6px' }} />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : filteredVehiculos.length === 0 ? (
+                <tr>
+                  <td colSpan={6} style={{ textAlign: 'center', padding: '48px', color: '#7b809a' }}>
+                    <Car size={36} style={{ margin: '0 auto 12px', opacity: 0.4, display: 'block' }} />
+                    {searchTerm ? "No se encontraron vehículos que coincidan con la búsqueda." : "No hay vehículos cargados en el inventario."}
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                filteredVehiculos.map((v) => (
+                  <tr key={v.id}>
+                    <td>
+                      <div className="vehiculo-info">
+                        <img
+                          src={v.imagen_url || "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=100&q=80"}
+                          alt={`${v.marca} ${v.modelo}`}
+                          className="vehiculo-img"
+                        />
+                        <div className="vehiculo-name">
+                          <span className="name-main">{v.modelo}</span>
+                          <span className="name-sub">Año: {v.anio}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span style={{ fontWeight: 600, color: '#344767' }}>{v.marca.toUpperCase()}</span>
+                    </td>
+                    <td style={{ fontWeight: 700, color: '#1A73E8' }}>
+                      {typeof v.precio === 'number'
+                        ? `$ ${Number(v.precio).toLocaleString('es-AR')}`
+                        : v.precio}
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <span style={{ fontWeight: 600, fontSize: '13px', color: '#344767' }}>
+                          {v.tipo === 'nuevo' ? '0 KM' : 'Usado'}
+                        </span>
+                        {v.tipo === 'usado' && v.km != null && (
+                          <span style={{ fontSize: '12px', color: '#7b809a', marginTop: '2px' }}>
+                            {v.km.toLocaleString('es-AR')} km
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td>
+                      {togglingId === v.id ? (
+                        <button className="status-badge" style={{ background: '#e0e0e0', color: '#7b809a', cursor: 'not-allowed' }} disabled>
+                          <Loader2 className="animate-spin" size={12} />
+                          Guardando...
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleToggleActivo(v.id, v.activo)}
+                          className={`status-badge ${v.activo ? 'activo' : 'inactivo'}`}
+                          title={v.activo ? "Clic para desactivar publicación" : "Clic para activar publicación"}
+                        >
+                          {v.activo ? "Publicado" : "Borrador"}
+                        </button>
+                      )}
+                    </td>
+                    <td>
+                      <div className="actions-cell">
+                        <a
+                          href={v.tipo === 'nuevo' ? '/vehiculos/0km' : '/vehiculos/usados'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="action-btn"
+                          title="Ver en el sitio público"
+                        >
+                          <Eye size={16} />
+                        </a>
+                        <Link
+                          href={`/dashboard/vehiculos/editar/${v.id}`}
+                          className="action-btn"
+                          title="Editar vehículo"
+                        >
+                          <Edit2 size={16} />
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(v.id, `${v.marca} ${v.modelo}`)}
+                          className="action-btn delete"
+                          title="Eliminar vehículo"
+                          disabled={deletingId === v.id}
+                        >
+                          {deletingId === v.id ? (
+                            <Loader2 className="animate-spin" size={16} />
+                          ) : (
+                            <Trash2 size={16} />
+                          )}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

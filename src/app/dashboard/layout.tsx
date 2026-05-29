@@ -29,6 +29,12 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 1200) {
+      setIsSidebarOpen(false);
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     let mounted = true;
 
     const checkAuth = async () => {
@@ -298,6 +304,10 @@ export default function DashboardLayout({
           color: #344767;
         }
 
+        .sidebar-overlay {
+          display: none;
+        }
+
         @media (max-width: 1199px) {
           .main-content {
             margin-left: 0;
@@ -310,11 +320,55 @@ export default function DashboardLayout({
           .sidebar.open {
             transform: translateX(0);
           }
+          .sidebar.closed {
+            transform: translateX(-300px);
+          }
           .dashboard-nav {
             margin-top: 16px;
           }
+          .sidebar-overlay {
+            display: block;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 990;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .search-box {
+            display: none;
+          }
+          .dashboard-nav {
+            margin-bottom: 24px;
+            padding: 8px 12px;
+            top: 8px;
+          }
+          .nav-left {
+            gap: 2px;
+          }
+          .breadcrumb {
+            font-size: 11px;
+            margin-bottom: 2px;
+          }
+          .page-title {
+            font-size: 14px;
+          }
+          .icon-group {
+            gap: 8px;
+          }
         }
       ` }} />
+
+      {/* Backdrop overlay for mobile */}
+      {isSidebarOpen && (
+        <div 
+          className="sidebar-overlay" 
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>

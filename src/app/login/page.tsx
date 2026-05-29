@@ -233,6 +233,17 @@ export default function LoginPage() {
         .pass-toggle:hover {
           color: white;
         }
+
+        @media (max-width: 480px) {
+          .login-card {
+            padding: 32px 24px;
+            border-radius: 24px;
+          }
+          .login-title {
+            font-size: 26px;
+            margin-bottom: 28px;
+          }
+        }
       ` }} />
 
       <div className="login-bg">

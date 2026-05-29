@@ -192,6 +192,40 @@ export default function DashboardPage() {
           height: 100%;
           border-radius: 4px;
         }
+
+        .table-responsive {
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+          .dashboard-page {
+            gap: 24px;
+          }
+          .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 36px 16px;
+            margin-top: 20px;
+          }
+          .charts-grid {
+            grid-template-columns: 1fr !important;
+            gap: 48px 16px;
+            margin-top: 32px !important;
+          }
+          .chart-card {
+            padding: 16px 12px;
+          }
+          .table-header {
+            padding: 16px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+          }
+          th, td {
+            padding: 12px 16px;
+          }
+        }
       ` }} />
 
       {/* Stats */}
@@ -303,34 +337,36 @@ export default function DashboardPage() {
           <button className="icon-btn"><MoreVertical size={20} /></button>
         </div>
         
-        <table>
-          <thead>
-            <tr>
-              <th>Compañía / Proyecto</th>
-              <th>Presupuesto</th>
-              <th>Progreso</th>
-            </tr>
-          </thead>
-          <tbody>
-            {projects.map((p, i) => (
-              <tr key={i}>
-                <td>
-                  <div className="project-info">
-                    <div className="project-logo" style={{ background: p.color }}>{p.brand[0]}</div>
-                    <span style={{ fontWeight: 700, color: '#344767' }}>{p.name}</span>
-                  </div>
-                </td>
-                <td style={{ fontWeight: 700 }}>{p.budget}</td>
-                <td>
-                  <span style={{ fontSize: '12px', fontWeight: 700 }}>{p.status}%</span>
-                  <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${p.status}%`, background: p.color }} />
-                  </div>
-                </td>
+        <div className="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Compañía / Proyecto</th>
+                <th>Presupuesto</th>
+                <th>Progreso</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {projects.map((p, i) => (
+                <tr key={i}>
+                  <td>
+                    <div className="project-info">
+                      <div className="project-logo" style={{ background: p.color }}>{p.brand[0]}</div>
+                      <span style={{ fontWeight: 700, color: '#344767' }}>{p.name}</span>
+                    </div>
+                  </td>
+                  <td style={{ fontWeight: 700 }}>{p.budget}</td>
+                  <td>
+                    <span style={{ fontSize: '12px', fontWeight: 700 }}>{p.status}%</span>
+                    <div className="progress-bar">
+                      <div className="progress-fill" style={{ width: `${p.status}%`, background: p.color }} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
