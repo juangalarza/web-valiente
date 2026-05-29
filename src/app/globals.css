@@ -1566,4 +1566,38 @@ footer {
   .h-hora {
     font-size: 1.25rem !important;
   }
+  footer {
+    padding: 50px 24px !important;
+  }
+  .footer-top {
+    grid-template-columns: 1fr !important;
+    margin-bottom: 32px !important;
+    padding-bottom: 32px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .footer-top > div:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+  .footer-top > div:not(:first-child) {
+    display: none !important;
+  }
+  .f-logo {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: inline-block !important;
+  }
+  .f-tag {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+  .f-socials {
+    justify-content: center !important;
+  }
 }
