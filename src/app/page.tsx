@@ -75,7 +75,7 @@ export default function Home() {
             alt="Valiente Logo"
             width={230}
             height={50}
-            className="h-10 w-auto"
+            style={{ height: '40px', width: 'auto', display: 'block' }}
             priority
           />
         </a>
@@ -334,7 +334,7 @@ export default function Home() {
                 alt="Valiente Logo"
                 width={230}
                 height={50}
-                className="h-10 w-auto"
+                style={{ height: '40px', width: 'auto', display: 'block' }}
                 priority
               /></a>
             <p className="f-tag">Líderes en San Juan en la distribución oficial de marcas internacionales. Más de una década uniendo personas con sus vehículos ideales.</p>
