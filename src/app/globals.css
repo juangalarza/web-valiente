@@ -61,8 +61,8 @@ nav {
 
 nav.scrolled {
   height: 70px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  background: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .nav-logo {
@@ -1491,7 +1491,24 @@ footer {
 
 @media (max-width: 560px) {
   nav {
-    padding: 0 16px !important;
+    padding: 0 12px !important;
+  }
+  .nav-logo {
+    flex-shrink: 1 !important;
+  }
+  .nav-logo img {
+    height: 30px !important;
+    width: auto !important;
+  }
+  .nav-links {
+    gap: 0 !important;
+  }
+  .nav-links a.nav-cta {
+    padding: 8px 14px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
   }
   .hero-title {
     font-size: 2.25rem !important;
@@ -1534,5 +1551,19 @@ footer {
   }
   .fgrid {
     grid-template-columns: 1fr !important;
+  }
+  .horario-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .horario-item {
+    padding: 16px !important;
+  }
+  .h-dia {
+    font-size: 13px !important;
+    letter-spacing: .15em !important;
+  }
+  .h-hora {
+    font-size: 1.25rem !important;
   }
 }
